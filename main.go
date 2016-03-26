@@ -440,6 +440,8 @@ func main() {
 	img := randomImage(colors, 1920, 1080)
 
 	changeDesktopBackground("background.png")
+	os.Remove("temp.jpg")
+	os.Remove("background.png")
 
 	png.Encode(file, img)
 }
