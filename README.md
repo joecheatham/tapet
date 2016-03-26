@@ -1,6 +1,7 @@
 tapet
 =========
 Requires >= OS X 10.9
+
 Tested and working on OS X 10.11 El Capitan.
 
 ## Installation
