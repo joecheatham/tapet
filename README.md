@@ -4,9 +4,6 @@ Tested and working on OS X 10.11 El Capitan.
 
 ## Installation
 
-### Dependencies
-[go-sqlite3](https://github.com/mattn/go-sqlite3)
-
 ### Short version
 
 If you already have Go installed and configured:
@@ -19,7 +16,7 @@ This method doesn't require a GOPATH.
 
 - Install Go
 - Clone this repository
-- Run `go build` in `src/` directory to build binary
+- Run `go build -o tapet` in to build binary
 - Run newly created binary from the command line
 
 ## Usage
