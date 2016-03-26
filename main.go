@@ -90,8 +90,7 @@ func changeDesktopBackground(path string) error {
 	}
 
 	cmd := exec.Command("killall", "Dock")
-	cmd.Start()
-	err = cmd.Wait()
+	err = cmd.Run()
 	if err != nil {
 		return err
 	}
@@ -439,9 +438,6 @@ func main() {
 
 	img := randomImage(colors, 1920, 1080)
 
-	changeDesktopBackground("background.png")
-	os.Remove("temp.jpg")
-	os.Remove("background.png")
-
 	png.Encode(file, img)
+	changeDesktopBackground("background.png")
 }
