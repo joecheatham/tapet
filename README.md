@@ -19,7 +19,7 @@ This method doesn't require a GOPATH.
 
 - Install Go
 - Clone this repository
-- Run `go build` in `src/` directory with main.go file to build binary
+- Run `go build` in `src/` directory to build binary
 - Run newly created binary from the command line
 
 ## Usage
