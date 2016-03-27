@@ -25,3 +25,6 @@ This method doesn't require a GOPATH.
 
 #### Getting image of the day, extracting colors, and setting as background image:
 `> tapet`
+
+#### Where are my images stored?
+Look in `~/.tapet/`.

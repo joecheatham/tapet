@@ -412,10 +412,12 @@ func main() {
 	defer response.Body.Close()
 
 	usr, err := user.Current()
-	err = os.Mkdir(fmt.Sprint(usr.HomeDir, "/.tapet"), 0666)
+	err = os.Mkdir(fmt.Sprint(usr.HomeDir, "/.tapet"), 0777)
 	if err != nil {
-		println("dir NOPE")
-		log.Fatal(err)
+		if !os.IsExist(err) {
+			println("dir NOPE")
+			log.Fatal(err)
+		}
 	}
 
 
