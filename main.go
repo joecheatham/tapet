@@ -411,8 +411,17 @@ func main() {
 
 	defer response.Body.Close()
 
-	file, err := os.Create("temp.jpg")
+	usr, err := user.Current()
+	err = os.Mkdir(fmt.Sprint(usr.HomeDir, "/.tapet"), 0666)
 	if err != nil {
+		println("dir NOPE")
+		log.Fatal(err)
+	}
+
+
+	file, err := os.Create(fmt.Sprint(usr.HomeDir, "/.tapet/", "temp.jpg"))
+	if err != nil {
+		println("file NOPE")
 		log.Fatal(err)
 	}
 
@@ -422,7 +431,7 @@ func main() {
 	}
 	file.Close()
 
-	colors, err := colorsFromImage("temp.jpg")
+	colors, err := colorsFromImage(fmt.Sprint(usr.HomeDir, "/.tapet/", "temp.jpg"))
 
 	if len(colors) > 16 {
 		colors = colors[:16]
@@ -430,7 +439,7 @@ func main() {
 		log.Fatal("Less than 16 colors. Aborting.")
 	}
 
-	file, err = os.OpenFile("background.png", os.O_CREATE | os.O_WRONLY, 0666)
+	file, err = os.OpenFile(fmt.Sprint(usr.HomeDir, "/.tapet/", "background.jpg"), os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -439,5 +448,5 @@ func main() {
 	img := randomImage(colors, 1920, 1080)
 
 	png.Encode(file, img)
-	changeDesktopBackground("background.png")
+	changeDesktopBackground(fmt.Sprint(usr.HomeDir, "/.tapet/", "temp.jpg"))
 }
