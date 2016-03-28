@@ -22,7 +22,9 @@ import (
 	"errors"
 	"time"
 	"os/exec"
-)
+	"strings"
+	"strconv"
+	)
 
 type BingAPIResponse struct {
 	Images   []struct {
@@ -382,7 +384,37 @@ func getInputImage(body []byte) (string, error) {
 	return "https://bing.com" + b.Images[0].URL, err
 }
 
+func getScreenResolution() (int, int) {
+	cmd := "system_profiler SPDisplaysDataType |grep Resolution |tr 'x' '\n' |sed 's/@.*//' |sed 's/[^0-9]//g'"
+	out, err := exec.Command("bash","-c",cmd).Output()
+	if err != nil {
+        return 1920, 1080
+    }
+    s := strings.Split(string(out), "\n")
+    if len(s) >= 2 {
+    	width := 1920
+    	height := 1080
+    	for i := 0; i < len(s); i+=2 {
+    		w, err := strconv.Atoi(s[i])
+    		if err != nil {
+    			return 1920, 1080
+    		}
+    		h, err := strconv.Atoi(s[i + 1])
+    		if err != nil {
+    			return 1920, 1080
+    		}
+    		if (w * h > width * height) {
+    			width = w
+    			height = h
+    		}
+    	}
+    	return width, height
+    }
+    return 1920, 1080
+}
+
 func main() {
+	width, height := getScreenResolution()
 	url := "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1"
 	res, err := http.Get(url)
 
@@ -438,7 +470,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	img := randomImage(colors, 1920, 1080)
+	img := randomImage(colors, width, height)
 	png.Encode(file, img)
 	file.Close()
 	changeDesktopBackground(fmt.Sprint(usr.HomeDir, "/.tapet/", "background.png"))
