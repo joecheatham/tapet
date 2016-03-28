@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"image/png"
-	"path/filepath"
 	"log"
 	"os"
 	"os/user"
@@ -17,11 +16,11 @@ import (
 	_ "image/jpeg"
 	"math/rand"
 	"math"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"sort"
 	"errors"
 	"time"
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"os/exec"
 )
 
@@ -69,20 +68,13 @@ func changeDesktopBackground(path string) error {
 		return err
 	}
 
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	db, err := sql.Open("sqlite3", fmt.Sprintf("%s/Library/Application Support/Dock/desktoppicture.db", usr.HomeDir))
 	if err != nil {
 		return err
 	}
 	defer db.Close()
 
-	file := fmt.Sprint(dir,"/",path)
-
-	sqlSmt := fmt.Sprintf("update data set value = '%s';", file)
+	sqlSmt := fmt.Sprintf("update data set value = '%s';", path)
 
 	_, err = db.Exec(sqlSmt)
 	if err != nil {
@@ -398,6 +390,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		panic(err)
@@ -420,7 +413,6 @@ func main() {
 		}
 	}
 
-
 	file, err := os.Create(fmt.Sprint(usr.HomeDir, "/.tapet/", "temp.jpg"))
 	if err != nil {
 		println("file NOPE")
@@ -441,14 +433,13 @@ func main() {
 		log.Fatal("Less than 16 colors. Aborting.")
 	}
 
-	file, err = os.OpenFile(fmt.Sprint(usr.HomeDir, "/.tapet/", "background.jpg"), os.O_CREATE | os.O_WRONLY, 0666)
+	file, err = os.OpenFile(fmt.Sprint(usr.HomeDir, "/.tapet/", "background.png"), os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
 
 	img := randomImage(colors, 1920, 1080)
-
 	png.Encode(file, img)
-	changeDesktopBackground(fmt.Sprint(usr.HomeDir, "/.tapet/", "temp.jpg"))
+	file.Close()
+	changeDesktopBackground(fmt.Sprint(usr.HomeDir, "/.tapet/", "background.png"))
 }
