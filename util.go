@@ -56,12 +56,12 @@ func getScreenResolution() (int, int) {
     if len(s) >= 2 {
     	width := 1920
     	height := 1080
-    	for i := 0; i < len(s); i+=2 {
-    		w, err := strconv.Atoi(s[i])
+    	for i := 1; i < len(s); i+=2 {
+    		w, err := strconv.Atoi(s[i - 1])
     		if err != nil {
     			return 1920, 1080
     		}
-    		h, err := strconv.Atoi(s[i + 1])
+    		h, err := strconv.Atoi(s[i])
     		if err != nil {
     			return 1920, 1080
     		}
