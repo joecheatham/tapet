@@ -6,7 +6,7 @@ import (
 	"math"
 	"math/rand"
 	"sort"
-	)
+)
 
 type Ray struct {
 	col   color.Color
@@ -17,8 +17,8 @@ type Ray struct {
 
 type rayBySize []Ray
 
-func (a rayBySize) Len() int { return len(a) }
-func (a rayBySize) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a rayBySize) Len() int           { return len(a) }
+func (a rayBySize) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a rayBySize) Less(i, j int) bool { return a[i].size < a[j].size }
 
 func Rays(colors []color.Color, w int, h int, size int, sizevar int, evendist bool, centered bool, large2small bool) image.Image {
@@ -46,7 +46,7 @@ func Rays(colors []color.Color, w int, h int, size int, sizevar int, evendist bo
 		if !evendist {
 			current_angle = rand.Intn(360)
 		}
-		ray = Ray{c, xpos, ypos, current_angle, randMinMax(size - sizevar, size + sizevar)}
+		ray = Ray{c, xpos, ypos, current_angle, randMinMax(size-sizevar, size+sizevar)}
 
 		if evendist {
 			current_angle += spacing + ray.size
@@ -64,11 +64,11 @@ func Rays(colors []color.Color, w int, h int, size int, sizevar int, evendist bo
 			for _, r := range rays {
 				deltaX := float64(x - r.x)
 				deltaY := float64(y - r.y)
-				angle := math.Atan(deltaY / deltaX) * 180 / math.Pi
+				angle := math.Atan(deltaY/deltaX) * 180 / math.Pi
 				if angle < 0 {
 					angle += 360
 				}
-				if int(math.Abs(float64(int(angle) - r.angle))) < r.size {
+				if int(math.Abs(float64(int(angle)-r.angle))) < r.size {
 					img.Set(x, y, r.col)
 				}
 			}

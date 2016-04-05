@@ -4,7 +4,7 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
-	)
+)
 
 type Line struct {
 	col      color.Color
@@ -31,7 +31,7 @@ func Lines(colors []color.Color, w int, h int, size int, sizevar int, horizontal
 		if c == bg {
 			continue
 		}
-		line := Line{c, currentposition, randMinMax(size - sizevar, size + sizevar)}
+		line := Line{c, currentposition, randMinMax(size-sizevar, size+sizevar)}
 		lines = append(lines, line)
 		if !equalspacing {
 			spacing = rand.Intn(maxsize / 16)
@@ -50,7 +50,7 @@ func Lines(colors []color.Color, w int, h int, size int, sizevar int, horizontal
 					pixelpos = x
 				}
 
-				if pixelpos > l.position && pixelpos < l.position + l.size {
+				if pixelpos > l.position && pixelpos < l.position+l.size {
 					img.Set(x, y, l.col)
 				}
 			}

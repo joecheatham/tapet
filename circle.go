@@ -6,7 +6,7 @@ import (
 	"math"
 	"math/rand"
 	"sort"
-	)
+)
 
 type Circle struct {
 	col  color.Color
@@ -16,8 +16,8 @@ type Circle struct {
 
 type circleBySize []Circle
 
-func (a circleBySize) Len() int { return len(a) }
-func (a circleBySize) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a circleBySize) Len() int           { return len(a) }
+func (a circleBySize) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a circleBySize) Less(i, j int) bool { return a[i].size < a[j].size }
 
 func Circles(colors []color.Color, w int, h int, size int, sizevar int, overlap bool, large2small bool, filled bool, bordersize int) image.Image {
@@ -30,7 +30,7 @@ func Circles(colors []color.Color, w int, h int, size int, sizevar int, overlap 
 		if c == bg {
 			continue
 		}
-		circle := Circle{c, rand.Intn(w), rand.Intn(h), randMinMax(size - sizevar, size + sizevar)}
+		circle := Circle{c, rand.Intn(w), rand.Intn(h), randMinMax(size-sizevar, size+sizevar)}
 		circles = append(circles, circle)
 	}
 
@@ -46,11 +46,11 @@ func Circles(colors []color.Color, w int, h int, size int, sizevar int, overlap 
 				b := float64((y - c.y) * (y - c.y))
 
 				if filled {
-					if int(math.Sqrt(a + b)) < c.size {
+					if int(math.Sqrt(a+b)) < c.size {
 						img.Set(x, y, c.col)
 					}
 				} else {
-					if int(math.Sqrt(a + b)) < c.size && int(math.Sqrt(a + b)) > (c.size - bordersize) {
+					if int(math.Sqrt(a+b)) < c.size && int(math.Sqrt(a+b)) > (c.size-bordersize) {
 						img.Set(x, y, c.col)
 					}
 				}

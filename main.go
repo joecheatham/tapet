@@ -3,17 +3,17 @@ package main
 import (
 	"fmt"
 	"image/png"
+	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"os/user"
-	"net/http"
-	"io/ioutil"
-	"io"
-	)
+)
 
 const (
-	url string = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1"
-	tmpImg string = "temp.jpg"
+	url           string = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1"
+	tmpImg        string = "temp.jpg"
 	backgroundImg string = "background.png"
 )
 
@@ -68,7 +68,7 @@ func main() {
 		log.Fatal("Less than 16 colors. Aborting.")
 	}
 
-	file, err = os.OpenFile(fmt.Sprint(usr.HomeDir, "/.tapet/", backgroundImg), os.O_CREATE | os.O_WRONLY, 0666)
+	file, err = os.OpenFile(fmt.Sprint(usr.HomeDir, "/.tapet/", backgroundImg), os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}

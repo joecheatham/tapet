@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	)
+)
 
 type BingAPIResponse struct {
-	Images   []struct {
+	Images []struct {
 		Startdate     string
 		Fullstartdate string
 		Enddate       string
@@ -26,21 +26,21 @@ type BingAPIResponse struct {
 			Locx  int
 			Locy  int
 		}
-		Msg           []interface{}
+		Msg []interface{}
 	}
 	Tooltips struct {
-				 Loading  string
-				 Previous string
-				 Next     string
-				 Walle    string
-				 Walls    string
-			 }
+		Loading  string
+		Previous string
+		Next     string
+		Walle    string
+		Walls    string
+	}
 }
 
 func getInputImage(body []byte) (string, error) {
 	var b = new(BingAPIResponse)
 	err := json.Unmarshal(body, &b)
-	if (err != nil) {
+	if err != nil {
 		fmt.Println("NOPE:", err)
 	}
 	return "https://bing.com" + b.Images[0].URL, err
