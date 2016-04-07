@@ -14,6 +14,16 @@ If you already have Go installed and configured:
 
 ### Less Short Version
 
+If you have homebrew installed, first make sure you've tapped my repository:
+
+```> brew tap joecheatham/homebrew-formulae```
+
+Then you can install with the following:
+
+```> brew install tapet```
+
+### Long Version
+
 This method doesn't require a GOPATH.
 
 - Install Go
